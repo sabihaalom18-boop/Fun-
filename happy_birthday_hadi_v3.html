@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Hadi ♡ (V3)</title>
+<style>
+*{box-sizing:border-box} body{margin:0;font-family:Georgia,"Noto Serif Bengali",serif;color:#fff;min-height:100vh;background:radial-gradient(circle at 20% 20%,#ff9acb44,transparent 40%),radial-gradient(circle at 80% 80%,#a66cff44,transparent 40%),linear-gradient(135deg,#0d0211,#2b0938 50%,#12031a);overflow-x:hidden;position:relative} #confettiCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999} .wrap{max-width:780px;margin:auto;padding:20px 16px 60px} .lock,.card{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.2);backdrop-filter:blur(18px);box-shadow:0 25px 50px rgba(0,0,0,0.6);border-radius:28px} .lock{min-height:90vh;display:flex;align-items:center;justify-content:center;padding:28px;text-align:center} .lockbox{max-width:380px;width:100%} .lock-icon{font-size:48px;margin-bottom:10px;animation:pulse 2s infinite} .pin{width:100%;padding:16px;border:1px solid rgba(255,255,255,0.3);border-radius:18px;background:rgba(0,0,0,0.4);color:#fff;text-align:center;font-size:24px;letter-spacing:10px;outline:none;margin:20px 0;transition:0.3s} .pin:focus{border-color:#ff6fb4;box-shadow:0 0 15px rgba(255,111,180,0.4)} .error{height:24px;color:#ff85c0;font-size:14px;font-weight:bold} .hidden{display:none!important} .v-reveal{position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#09020f;border-radius:24px;border:1px solid rgba(255,255,255,0.15)} .v-banner{width:100%;max-height:480px;object-fit:cover;display:block;border-radius:24px;filter:brightness(0.9);transition:transform 0.5s} .v-banner:hover{transform:scale(1.02)} .card{padding:32px 24px;margin-top:24px;text-align:center;position:relative} .rose{font-size:54px;margin-bottom:10px;display:inline-block;animation:float 3s ease-in-out infinite} h2{color:#ffd0ec;font-size:28px;margin-bottom:16px;text-shadow:0 0 10px rgba(255,208,236,0.3)} .letter{font-size:18px;line-height:2;color:#f3e8f8} .highlight{font-size:22px;color:#ffd0e8;font-weight:bold;margin-bottom:15px} .btn-group{display:flex;gap:12px;justify-content:center;margin-top:25px;flex-wrap:wrap} .btn{border:0;border-radius:999px;padding:12px 24px;background:linear-gradient(90deg,#ff6fb4,#9b6cff);color:white;font-weight:bold;font-size:15px;cursor:pointer;box-shadow:0 8px 25px rgba(196,92,255,0.35);transition:0.3s} .btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(196,92,255,0.5)} .btn-outline{background:transparent;border:1px solid rgba(255,255,255,0.4);box-shadow:none} .music-btn{position:fixed;bottom:20px;right:20px;z-index:99;background:rgba(255,111,180,0.8);backdrop-filter:blur(10px);border:none;color:white;width:48px;height:48px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 10px 25px rgba(0,0,0,0.5)} .secret-box{margin-top:20px;padding:20px;border-radius:20px;background:rgba(255,111,180,0.08);border:1px dashed rgba(255,255,255,0.3);display:none;animation:fadeIn 0.8s} @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}} @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}} @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}} 
+</style>
+</head>
+<body>
+<canvas id="confettiCanvas"></canvas>
+<button class="music-btn hidden" id="musicToggle" onclick="toggleAudio()">🎵</button>
+<audio id="bgAudio" loop src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-piano-112185.mp3"></audio>
+<div class="wrap">
+<section id="lock" class="lock">
+<div class="lockbox">
+<div class="lock-icon">🔒</div>
+<h2 style="font-size:22px;margin:0 0 10px;">Enter Secret PIN</h2>
+<p style="opacity:.7;font-size:14px;">4-digit passkey required</p>
+<input id="pin" class="pin" maxlength="4" inputmode="numeric" placeholder="••••" autofocus>
+<div id="error" class="error"></div>
+</div>
+</section>
+<main id="page" class="hidden">
+<section class="v-reveal">
+<img class="v-banner" src="https://upload.wikimedia.org/wikipedia/commons/d/dd/Kim_Tae-hyung_for_Dispatch_%22Boy_With_Luv%22_MV_behind_the_scenes_photoshoot%2C_15_March_2019_02.jpg" alt="V Banner">
+</section>
+<section class="card">
+<div class="rose">🌸</div>
+<h2>Special Birthday Wish from V 💜</h2>
+<div class="letter">
+<p class="highlight">“Happy Birthday, my Chandro Mollika (চন্দ্রমল্লিকা)! 🌸✨”</p>
+<p>Jemon chandro mollika nijer snigdhota o shoundorjo diye shobai ke mugdho kore, temni tomar hashitei amader shobchaye boro shanti. Shobshomoy ehabe shundor thako, hese thako o shushtho thako!</p>
+<p style="text-align:right;font-style:italic;color:#ffd0e8;font-size:19px;margin-top:15px;">— Kim Taehyung (V) 💜</p>
+</div>
+<div class="btn-group">
+<button class="btn" onclick="triggerHearts()">Send Love 💜</button>
+<button class="btn btn-outline" onclick="toggleSecret()">Secret Note 💌</button>
+</div>
+<div id="secretBox" class="secret-box">
+<p style="margin:0;font-size:16px;color:#ffd0e8;">✨ <i>“May your year ahead be as soft and beautiful as a blooming garden under a starry night sky.”</i> ✨</p>
+</div>
+</section>
+</main>
+</div>
+<script>
+const pinInput=document.getElementById('pin'),lockSection=document.getElementById('lock'),mainPage=document.getElementById('page'),errorDiv=document.getElementById('error'),musicToggle=document.getElementById('musicToggle'),bgAudio=document.getElementById('bgAudio');
+const CORRECT_PIN="8149";
+pinInput.addEventListener('input',(e)=>{if(e.target.value.length===4){if(e.target.value===CORRECT_PIN){lockSection.style.display='none';mainPage.classList.remove('hidden');musicToggle.classList.remove('hidden');errorDiv.textContent='';startConfetti();bgAudio.play().catch(()=>console.log('Audio autoplay blocked'));}else{errorDiv.textContent='Incorrect PIN. Try again!';e.target.value='';}}});
+function toggleAudio(){if(bgAudio.paused){bgAudio.play();musicToggle.textContent='🎵'}else{bgAudio.pause();musicToggle.textContent='🔇'}}
+function toggleSecret(){const box=document.getElementById('secretBox');box.style.display=box.style.display==='block'?'none':'block'}
+function startConfetti(){const canvas=document.getElementById('confettiCanvas'),ctx=canvas.getContext('2d');canvas.width=innerWidth;canvas.height=innerHeight;const particles=Array.from({length:70},()=>({x:Math.random()*canvas.width,y:Math.random()*canvas.height-canvas.height,size:Math.random()*8+4,color:['#ff6fb4','#9b6cff','#ffd0ec','#ffffff'][Math.floor(Math.random()*4)],speed:Math.random()*3+2,angle:Math.random()*6.28}));function render(){ctx.clearRect(0,0,canvas.width,canvas.height);particles.forEach(p=>{p.y+=p.speed;p.angle+=.02;if(p.y>canvas.height)p.y=-10;ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(p.x+Math.sin(p.angle)*15,p.y,p.size,0,Math.PI*2);ctx.fill()});requestAnimationFrame(render)}render()}
+function triggerHearts(){startConfetti()}
+</script>
+</body>
+</html>

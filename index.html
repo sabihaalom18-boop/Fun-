@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lyrosc - Real-time Viral Bidding Platform for Brands & Creators</title>
+    <meta name="description" content="Own the spotlight in the Bangladeshi market. Guaranteed high-prestige visibility for brands and creators without algorithmic suppression.">
+
+    <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        wine: {
+                            950: '#1F040C',
+                            900: '#2D0713',
+                            800: '#450B1D',
+                            700: '#630F2A',
+                            600: '#8A153A',
+                            500: '#B01B4B',
+                        },
+                        pest: {
+                            100: '#E8F8EE',
+                            200: '#C5F0D4',
+                            300: '#9CE3B6',
+                            400: '#72D598',
+                            500: '#4EC67F',
+                            600: '#38A363',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .bg-glass {
+                background: rgba(45, 7, 19, 0.65);
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(16px);
+                border: 1px solid rgba(156, 227, 182, 0.12);
+            }
+            .bg-glass-card {
+                background: linear-gradient(135deg, rgba(69, 11, 29, 0.6) 0%, rgba(31, 4, 12, 0.8) 100%);
+                backdrop-filter: blur(12px);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+            }
+            .bg-glass-hover:hover {
+                border-color: rgba(156, 227, 182, 0.3);
+                box-shadow: 0 10px 30px -10px rgba(114, 213, 152, 0.15);
+            }
+            .text-gradient-pest {
+                background: linear-gradient(135deg, #FFFFFF 0%, #9CE3B6 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+            .text-gradient-wine {
+                background: linear-gradient(135deg, #FF80A0 0%, #72D598 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+        }
+    </style>
+</head>
+<body class="bg-wine-950 text-gray-100 font-sans selection:bg-pest-400 selection:text-wine-950 antialiased overflow-x-hidden">
+
+    <!-- Ambient Background Glows -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div class="absolute -top-40 -left-40 w-96 h-96 bg-wine-700/30 rounded-full blur-3xl"></div>
+        <div class="absolute top-1/3 -right-40 w-96 h-96 bg-pest-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-40 left-1/3 w-96 h-96 bg-wine-800/20 rounded-full blur-3xl"></div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-50 bg-wine-950/80 backdrop-blur-md border-b border-wine-800/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-wine-600 to-pest-400 p-0.5 shadow-lg shadow-pest-400/10">
+                        <div class="w-full h-full bg-wine-950 rounded-[10px] flex items-center justify-center font-heading font-extrabold text-xl text-pest-300 group-hover:text-white transition-colors">
+                            L
+                        </div>
+                    </div>
+                    <span class="font-heading font-bold text-2xl tracking-tight text-white">Lyrosc</span>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-300">
+                    <a href="#how-it-works" class="hover:text-pest-300 transition-colors">How It Works</a>
+                    <a href="#features" class="hover:text-pest-300 transition-colors">Features</a>
+                    <a href="#pricing" class="hover:text-pest-300 transition-colors">Pricing</a>
+                    <a href="#faq" class="hover:text-pest-300 transition-colors">FAQ</a>
+                </div>
+
+                <!-- Action Button & Mobile Toggle -->
+                <div class="flex items-center gap-4">
+                    <a href="#leaderboard" class="hidden sm:inline-flex items-center justify-center px-5 py-2.5 rounded-full text-sm font-semibold bg-pest-400 text-wine-950 hover:bg-pest-300 transition-all shadow-md shadow-pest-400/20 hover:scale-[1.02]">
+                        View Leaderboard
+                    </a>
+
+                    <!-- Mobile Menu Button -->
+                    <button id="mobileMenuBtn" aria-label="Toggle Navigation Menu" class="md:hidden p-2 rounded-lg text-gray-400 hover:text-white hover:bg-wine-900 focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path id="menuIcon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-wine-900/95 border-b border-wine-800 px-4 pt-2 pb-6 space-y-3">
+            <a href="#how-it-works" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-wine-800 hover:text-pest-300">How It Works</a>
+            <a href="#features" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-wine-800 hover:text-pest-300">Features</a>
+            <a href="#pricing" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-wine-800 hover:text-pest-300">Pricing</a>
+            <a href="#faq" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-wine-800 hover:text-pest-300">FAQ</a>
+            <a href="#leaderboard" class="block w-full text-center mt-4 px-5 py-2.5 rounded-full text-sm font-semibold bg-pest-400 text-wine-950 hover:bg-pest-300">
+                View Leaderboard
+            </a>
+        </div>
+    </nav>
+
+    <main class="relative z-10">
+        <!-- HERO SECTION -->
+        <section class="relative pt-12 pb-20 md:pt-20 md:pb-32 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+
+                    <!-- Left Column: Copy & Actions -->
+                    <div class="lg:col-span-6 text-center lg:text-left space-y-8">
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-wine-900/80 border border-pest-400/30 text-pest-300 text-xs font-semibold uppercase tracking-wider">
+                            <span class="w-2 h-2 rounded-full bg-pest-400 animate-ping"></span>
+                            Live Bangladesh Marketing Auction
+                        </div>
+
+                        <h1 class="font-heading font-extrabold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-white leading-[1.15]">
+                            Own the spotlight in the Bangladeshi market.
+                        </h1>
+
+                        <p class="text-lg sm:text-xl text-gray-300 leading-relaxed font-normal max-w-2xl mx-auto lg:mx-0">
+                            Stop fighting the algorithm and start winning the auction for immediate brand visibility and viral hype.
+                        </p>
+
+                        <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                            <a href="#cta" class="w-full sm:w-auto px-8 py-4 rounded-full bg-pest-400 text-wine-950 font-bold text-base hover:bg-pest-300 transition-all shadow-lg shadow-pest-400/25 hover:shadow-pest-400/40 hover:-translate-y-0.5 text-center">
+                                Place your bid now
+                            </a>
+                            <a href="#leaderboard" class="w-full sm:w-auto px-8 py-4 rounded-full border border-wine-700 hover:border-pest-400/50 text-gray-200 hover:text-pest-300 font-semibold text-base transition-all bg-wine-900/40 hover:bg-wine-900/80 text-center flex items-center justify-center gap-2">
+                                <span>View current leaderboard</span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                            </a>
+                        </div>
+
+                        <!-- Micro trust badges -->
+                        <div class="pt-4 flex items-center justify-center lg:justify-start gap-6 text-xs text-gray-400 font-medium">
+                            <span class="flex items-center gap-1.5">
+                                <svg class="w-4 h-4 text-pest-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                                Guaranteed Top Slot
+                            </span>
+                            <span class="flex items-center gap-1.5">
+                                <svg class="w-4 h-4 text-pest-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                                Verified High Prestige
+                            </span>
+                            <span class="flex items-center gap-1.5">
+                                <svg class="w-4 h-4 text-pest-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                                Real-Time Analytics
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Stylized Interactive Leaderboard Visual -->
+                    <div class="lg:col-span-6" id="leaderboard">
+                        <div class="relative bg-glass rounded-3xl p-6 sm:p-8 shadow-2xl border border-wine-700/60 shadow-wine-950">
+
+                            <!-- Header Bar -->
+                            <div class="flex items-center justify-between border-b border-wine-800 pb-5 mb-6">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-3 h-3 rounded-full bg-pest-400 animate-pulse"></div>
+                                    <h3 class="font-heading font-bold text-lg text-white">Live Leaderboard</h3>
+                                </div>
+                                <div class="text-xs bg-wine-900 border border-wine-700 px-3 py-1 rounded-full text-pest-300 font-mono" id="heroCountdown">
+                                    Next Round Reset: 04:12:35
+                                </div>
+                            </div>
+
+                            <!-- Leaderboard Slots -->
+                            <div class="space-y-4" id="leaderboardList">
+
+                                <!-- #1 Spot (Gold / Spotlight) -->
+                                <div class="relative p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-wine-800 to-wine-900 border-2 border-pest-400/80 shadow-lg shadow-pest-400/10 flex items-center justify-between group hover:scale-[1.01] transition-transform">
+                                    <div class="absolute -top-3 left-6 bg-pest-400 text-wine-950 text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full tracking-wider shadow">
+                                        #1 Spot Holder
+                                    </div>
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-12 h-12 rounded-xl bg-wine-950 border border-pest-400/40 flex items-center justify-center font-black text-pest-300 text-xl font-heading shadow-inner">
+                                            01
+                                        </div>
+                                        <div>
+                                            <div class="flex items-center gap-2">
+                                                <h4 class="font-bold text-white text-base sm:text-lg">Apex Heritage Fashion</h4>
+                                                <span class="text-xs text-pest-300 bg-pest-400/10 px-2 py-0.5 rounded border border-pest-400/20">Active Slot</span>
+                                            </div>
+                                            <p class="text-xs text-gray-400 mt-0.5">Category: Premium Fashion & Retail</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-lg sm:text-xl font-extrabold text-pest-300 font-mono" id="topBidAmount">$2,450</div>
+                                        <div class="text-[11px] text-gray-400">Current Highest Bid</div>
+                                    </div>
+                                </div>
+
+                                <!-- #2 Spot -->
+                                <div class="p-4 sm:p-5 rounded-2xl bg-wine-900/60 border border-wine-800 flex items-center justify-between hover:border-wine-700 transition-colors">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-12 h-12 rounded-xl bg-wine-950/80 border border-wine-800 flex items-center justify-center font-bold text-gray-400 text-lg font-heading">
+                                            02
+                                        </div>
+                                        <div>
+                                            <h4 class="font-semibold text-gray-200 text-base">Kazi Organic Tea & Beverages</h4>
+                                            <p class="text-xs text-gray-400 mt-0.5">Category: Consumer FMCG</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-base sm:text-lg font-bold text-white font-mono">$1,800</div>
+                                        <div class="text-[11px] text-gray-400">Challenging Bid</div>
+                                    </div>
+                                </div>
+
+                                <!-- #3 Spot -->
+                                <div class="p-4 sm:p-5 rounded-2xl bg-wine-900/40 border border-wine-800/80 flex items-center justify-between hover:border-wine-700 transition-colors">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-12 h-12 rounded-xl bg-wine-950/80 border border-wine-800 flex items-center justify-center font-bold text-gray-400 text-lg font-heading">
+                                            03
+                                        </div>
+                                        <div>
+                                            <h4 class="font-semibold text-gray-300 text-base">Nafis Rahman Studio</h4>
+                                            <p class="text-xs text-gray-400 mt-0.5">Category: Digital Tech Creator</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-base sm:text-lg font-bold text-white font-mono">$1,250</div>
+                                        <div class="text-[11px] text-gray-400">Entry Tier</div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!-- Interactive Mini Bid Widget -->
+                            <div class="mt-6 pt-5 border-t border-wine-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+                                <div class="text-xs text-gray-300 text-center sm:text-left">
+                                    Want to claim #1 position? <span class="text-pest-300 font-semibold">Min outbid: +$50</span>
+                                </div>
+                                <button onclick="quickBidDemo()" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-wine-700 hover:bg-wine-600 text-pest-200 text-xs font-bold border border-pest-400/30 transition-all flex items-center justify-center gap-2">
+                                    <svg class="w-4 h-4 text-pest-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                                    <span>Simulate Outbid (+ $100)</span>
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- PROBLEM SECTION -->
+        <section class="py-20 bg-wine-900/40 border-y border-wine-800/60">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                    <h2 class="text-xs font-bold uppercase tracking-widest text-pest-400">The Problem</h2>
+                    <p class="font-heading font-extrabold text-3xl sm:text-4xl text-white">
+                        Why traditional Bangladeshi marketing is breaking
+                    </p>
+                    <p class="text-gray-300 text-base">
+                        Brands and creators are spending more every month only to get buried by unpredictable algorithms and noisy feeds.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+                    <!-- Pain 1 -->
+                    <div class="bg-glass-card p-8 rounded-3xl hover:bg-wine-900/80 transition-all border border-wine-800 hover:border-pest-400/40 group">
+                        <div class="w-12 h-12 rounded-2xl bg-wine-800/80 border border-wine-700 flex items-center justify-center text-pest-400 mb-6 group-hover:scale-110 transition-transform">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858-5.908a9.04 9.04 0 012.122-.363c4.478 0 8.268 2.943 9.542 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21M3 3l18 18"/></svg>
+                        </div>
+                        <h3 class="font-heading font-bold text-xl text-white mb-3">
+                            Social media algorithms hide your best content.
+                        </h3>
+                        <p class="text-gray-300 text-sm leading-relaxed">
+                            You post high quality campaigns, but organic reach keeps dropping. Your brand stays invisible to the exact consumers you are trying to reach.
+                        </p>
+                    </div>
+
+                    <!-- Pain 2 -->
+                    <div class="bg-glass-card p-8 rounded-3xl hover:bg-wine-900/80 transition-all border border-wine-800 hover:border-pest-400/40 group">
+                        <div class="w-12 h-12 rounded-2xl bg-wine-800/80 border border-wine-700 flex items-center justify-center text-pest-400 mb-6 group-hover:scale-110 transition-transform">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                        </div>
+                        <h3 class="font-heading font-bold text-xl text-white mb-3">
+                            It is harder than ever to stand out in a crowded digital market.
+                        </h3>
+                        <p class="text-gray-300 text-sm leading-relaxed">
+                            Consumers are overwhelmed with endless feeds and repetitive sponsored ads, causing ad fatigue and zero retention for new launches.
+                        </p>
+                    </div>
+
+                    <!-- Pain 3 -->
+                    <div class="bg-glass-card p-8 rounded-3xl hover:bg-wine-900/80 transition-all border border-wine-800 hover:border-pest-400/40 group">
+                        <div class="w-12 h-12 rounded-2xl bg-wine-800/80 border border-wine-700 flex items-center justify-center text-pest-400 mb-6 group-hover:scale-110 transition-transform">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        </div>
+                        <h3 class="font-heading font-bold text-xl text-white mb-3">
+                            Traditional ads are expensive and offer no guaranteed prestige.
+                        </h3>
+                        <p class="text-gray-300 text-sm leading-relaxed">
+                            You pay high CPMs for fleeting impressions that offer no authority or status. Your budget drains without securing premium market position.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- HOW IT WORKS SECTION -->
+        <section id="how-it-works" class="py-24 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                <div class="text-center max-w-3xl mx-auto mb-20 space-y-4">
+                    <h2 class="text-xs font-bold uppercase tracking-widest text-pest-400">How It Works</h2>
+                    <p class="font-heading font-extrabold text-3xl sm:text-4xl text-white">
+                        Three simple steps to claim guaranteed visibility
+                    </p>
+                    <p class="text-gray-300 text-base">
+                        Bypass algorithmic feeds and place your brand directly in front of active trend-seekers.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+
+                    <!-- Step 1 -->
+                    <div class="relative bg-glass-card p-8 rounded-3xl border border-wine-800 space-y-5">
+                        <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-pest-400 text-wine-950 font-black font-heading text-lg">
+                            01
+                        </div>
+                        <h3 class="font-heading font-bold text-2xl text-white">
+                            Choose your slot.
+                        </h3>
+                        <p class="text-gray-300 text-sm leading-relaxed">
+                            Pick the position on the Lyrosc leaderboard you want your brand to occupy.
+                        </p>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="relative bg-glass-card p-8 rounded-3xl border border-wine-800 space-y-5">
+                        <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-pest-400 text-wine-950 font-black font-heading text-lg">
+                            02
+                        </div>
+                        <h3 class="font-heading font-bold text-2xl text-white">
+                            Place a bid.
+                        </h3>
+                        <p class="text-gray-300 text-sm leading-relaxed">
+                            Outbid the current holder to instantly take over the top spot and gain immediate attention.
+                        </p>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="relative bg-glass-card p-8 rounded-3xl border border-wine-800 space-y-5">
+                        <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-pest-400 text-wine-950 font-black font-heading text-lg">
+                            03
+                        </div>
+                        <h3 class="font-heading font-bold text-2xl text-white">
+                            Go viral.
+                        </h3>
+                        <p class="text-gray-300 text-sm leading-relaxed">
+                            Benefit from a concentrated audience of trend-seekers looking for the next big thing in Bangladesh.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURES SECTION -->
+        <section id="features" class="py-24 bg-wine-900/30 border-t border-wine-800/60">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                <div class="text-center max-w-3xl mx-auto mb-20 space-y-4">
+                    <h2 class="text-xs font-bold uppercase tracking-widest text-pest-400">Features</h2>
+                    <p class="font-heading font-extrabold text-3xl sm:text-4xl text-white">
+                        Designed for maximum visibility and impact
+                    </p>
+                    <p class="text-gray-300 text-base">
+                        Everything you need to secure digital prestige without technical complexity.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                    <!-- Feature 1 -->
+                    <div class="bg-glass-card p-8 rounded-3xl border border-wine-800 hover:border-pest-400/40 transition-all flex flex-col justify-between">
+                        <div>
+                            <div class="w-12 h-12 rounded-2xl bg-wine-800 flex items-center justify-center text-pest-300 mb-6">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                            </div>
+                            <h3 class="font-heading font-bold text-xl text-white mb-3">
+                                Real-time bidding.
+                            </h3>
+                            <p class="text-gray-300 text-base leading-relaxed">
+                                See your brand rise to the top the moment your bid is successful.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Feature 2 -->
+                    <div class="bg-glass-card p-8 rounded-3xl border border-wine-800 hover:border-pest-400/40 transition-all flex flex-col justify-between">
+                        <div>
+                            <div class="w-12 h-12 rounded-2xl bg-wine-800 flex items-center justify-center text-pest-300 mb-6">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+                            </div>
+                            <h3 class="font-heading font-bold text-xl text-white mb-3">
+                                Zero integration required.
+                            </h3>
+                            <p class="text-gray-300 text-base leading-relaxed">
+                                Simply upload your logo and link to start your campaign in seconds.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Feature 3 -->
+                    <div class="bg-glass-card p-8 rounded-3xl border border-wine-800 hover:border-pest-400/40 transition-all flex flex-col justify-between">
+                        <div>
+                            <div class="w-12 h-12 rounded-2xl bg-wine-800 flex items-center justify-center text-pest-300 mb-6">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                            </div>
+                            <h3 class="font-heading font-bold text-xl text-white mb-3">
+                                High-intent audience.
+                            </h3>
+                            <p class="text-gray-300 text-base leading-relaxed">
+                                Reach users who visit Lyrosc specifically to discover new brands and creators.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Feature 4 -->
+                    <div class="bg-glass-card p-8 rounded-3xl border border-wine-800 hover:border-pest-400/40 transition-all flex flex-col justify-between">
+                        <div>
+                            <div class="w-12 h-12 rounded-2xl bg-wine-800 flex items-center justify-center text-pest-300 mb-6">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+                            </div>
+                            <h3 class="font-heading font-bold text-xl text-white mb-3">
+                                Prestige positioning.
+                            </h3>
+                            <p class="text-gray-300 text-base leading-relaxed">
+                                Gain the status that comes with holding the most valuable digital real estate in the region.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- SOCIAL PROOF SECTION -->
+        <section class="py-24 relative overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                <div class="text-center max-w-3xl mx-auto mb-20 space-y-4">
+                    <h2 class="text-xs font-bold uppercase tracking-widest text-pest-400">Social Proof</h2>
+                    <p class="font-heading font-extrabold text-3xl sm:text-4xl text-white">
+                        Trusted by leading brands & top creators
+                    </p>
+                    <p class="text-gray-300 text-base">
+                        See what marketing leaders and digital creators say about winning on Lyrosc.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+                    <!-- Testimonial 1 -->
+                    <div class="bg-glass-card p-8 rounded-3xl border border-wine-800 flex flex-col justify-between relative">
+                        <div class="space-y-4">
+                            <div class="text-pest-400 text-2xl font-serif">“</div>
+                            <p class="text-gray-200 text-base leading-relaxed italic">
+                                "This platform gave us more direct traffic in one afternoon than our monthly social spend."
+                            </p>
+                        </div>
+                        <div class="mt-8 pt-6 border-t border-wine-800/80">
+                            <div class="font-bold text-white text-sm">Marketing Manager</div>
+                            <div class="text-xs text-pest-300">Fashion Retailer</div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 2 -->
+                    <div class="bg-glass-card p-8 rounded-3xl border border-wine-800 flex flex-col justify-between relative">
+                        <div class="space-y-4">
+                            <div class="text-pest-400 text-2xl font-serif">“</div>
+                            <p class="text-gray-200 text-base leading-relaxed italic">
+                                "The bidding process is addictive and the visibility for our new project was instant."
+                            </p>
+                        </div>
+                        <div class="mt-8 pt-6 border-t border-wine-800/80">
+                            <div class="font-bold text-white text-sm">Digital Creator</div>
+                            <div class="text-xs text-pest-300">Leading Content Channel</div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 3 -->
+                    <div class="bg-glass-card p-8 rounded-3xl border border-wine-800 flex flex-col justify-between relative">
+                        <div class="space-y-4">
+                            <div class="text-pest-400 text-2xl font-serif">“</div>
+                            <p class="text-gray-200 text-base leading-relaxed italic">
+                                "Finally, a way to guarantee our brand is seen without begging the algorithm for reach."
+                            </p>
+                        </div>
+                        <div class="mt-8 pt-6 border-t border-wine-800/80">
+                            <div class="font-bold text-white text-sm">FMCG Brand Director</div>
+                            <div class="text-xs text-pest-300">Consumer FMCG Brand</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- PRICING SECTION -->
+        <section id="pricing" class="py-24 bg-wine-900/40 border-y border-wine-800/60">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                    <h2 class="text-xs font-bold uppercase tracking-widest text-pest-400">Pricing</h2>
+                    <p class="font-heading font-extrabold text-3xl sm:text-4xl text-white">
+                        The Auction Model
+                    </p>
+                    <p class="text-gray-300 text-base">
+                        Transparent, competitive pricing designed for maximum ROI.
+                    </p>
+                </div>
+
+                <div class="max-w-4xl mx-auto bg-glass rounded-3xl p-8 sm:p-12 border border-pest-400/30 shadow-2xl relative overflow-hidden">
+                    <div class="absolute -top-12 -right-12 w-48 h-48 bg-pest-400/10 rounded-full blur-2xl pointer-events-none"></div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                        <div class="md:col-span-7 space-y-6">
+                            <div class="inline-block px-3 py-1 rounded-full bg-pest-400/10 border border-pest-400/30 text-pest-300 text-xs font-semibold">
+                                Dynamic Bidding Engine
+                            </div>
+
+                            <h3 class="font-heading font-bold text-2xl sm:text-3xl text-white">
+                                Flexible entry for high-impact campaigns
+                            </h3>
+
+                            <p class="text-gray-300 text-base leading-relaxed">
+                                Bids start as low as $500 for entry-level visibility. Top slots are determined by real-time competition. Each bid includes immediate placement, a live link to your destination, and inclusion in our trend reports.
+                            </p>
+
+                            <div class="space-y-3 pt-2">
+                                <div class="flex items-center gap-3 text-sm text-gray-200">
+                                    <svg class="w-5 h-5 text-pest-400 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                                    <span>Immediate placement upon winning bid</span>
+                                </div>
+                                <div class="flex items-center gap-3 text-sm text-gray-200">
+                                    <svg class="w-5 h-5 text-pest-400 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                                    <span>Live direct link to your campaign destination</span>
+                                </div>
+                                <div class="flex items-center gap-3 text-sm text-gray-200">
+                                    <svg class="w-5 h-5 text-pest-400 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                                    <span>Inclusion in official Lyrosc trend reports</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="md:col-span-5 bg-wine-950/80 rounded-2xl p-6 border border-wine-800 text-center space-y-5">
+                            <div>
+                                <span class="text-xs uppercase tracking-wider text-gray-400">Starting Floor</span>
+                                <div class="text-4xl sm:text-5xl font-extrabold text-pest-300 font-mono mt-1">$500</div>
+                                <span class="text-xs text-gray-400">for entry-level visibility</span>
+                            </div>
+
+                            <a href="#cta" class="block w-full py-3.5 rounded-full bg-pest-400 hover:bg-pest-300 text-wine-950 font-bold text-sm transition-all shadow-md">
+                                Enter Next Auction
+                            </a>
+
+                            <div class="pt-3 border-t border-wine-900 flex items-center justify-center gap-2 text-xs text-gray-400">
+                                <svg class="w-4 h-4 text-pest-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                                <span>All payments are securely processed via Paddle.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ SECTION -->
+        <section id="faq" class="py-24">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                    <h2 class="text-xs font-bold uppercase tracking-widest text-pest-400">Frequently Asked Questions</h2>
+                    <p class="font-heading font-extrabold text-3xl sm:text-4xl text-white">
+                        Everything you need to know
+                    </p>
+                </div>
+
+                <div class="space-y-4">
+
+                    <!-- FAQ 1 -->
+                    <div class="bg-glass-card rounded-2xl border border-wine-800 overflow-hidden">
+                        <button class="w-full text-left px-6 py-5 flex items-center justify-between gap-4 font-heading font-semibold text-white text-lg focus:outline-none faq-btn" onclick="toggleFaq(this)">
+                            <span>How long does my brand stay at the top?</span>
+                            <svg class="w-5 h-5 text-pest-400 shrink-0 transform transition-transform duration-200 faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        <div class="px-6 pb-5 text-gray-300 text-sm hidden faq-content border-t border-wine-800/50 pt-4">
+                            You hold the position as long as you are the highest bidder for that slot.
+                        </div>
+                    </div>
+
+                    <!-- FAQ 2 -->
+                    <div class="bg-glass-card rounded-2xl border border-wine-800 overflow-hidden">
+                        <button class="w-full text-left px-6 py-5 flex items-center justify-between gap-4 font-heading font-semibold text-white text-lg focus:outline-none faq-btn" onclick="toggleFaq(this)">
+                            <span>How do I know if I am outbid?</span>
+                            <svg class="w-5 h-5 text-pest-400 shrink-0 transform transition-transform duration-200 faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        <div class="px-6 pb-5 text-gray-300 text-sm hidden faq-content border-t border-wine-800/50 pt-4">
+                            The leaderboard updates in real-time and you can choose to defend your position immediately.
+                        </div>
+                    </div>
+
+                    <!-- FAQ 3 -->
+                    <div class="bg-glass-card rounded-2xl border border-wine-800 overflow-hidden">
+                        <button class="w-full text-left px-6 py-5 flex items-center justify-between gap-4 font-heading font-semibold text-white text-lg focus:outline-none faq-btn" onclick="toggleFaq(this)">
+                            <span>Is this only for Bangladeshi brands?</span>
+                            <svg class="w-5 h-5 text-pest-400 shrink-0 transform transition-transform duration-200 faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        <div class="px-6 pb-5 text-gray-300 text-sm hidden faq-content border-t border-wine-800/50 pt-4">
+                            While we focus on Bangladesh, any brand or creator looking for global hype can participate.
+                        </div>
+                    </div>
+
+                    <!-- FAQ 4 -->
+                    <div class="bg-glass-card rounded-2xl border border-wine-800 overflow-hidden">
+                        <button class="w-full text-left px-6 py-5 flex items-center justify-between gap-4 font-heading font-semibold text-white text-lg focus:outline-none faq-btn" onclick="toggleFaq(this)">
+                            <span>What assets do I need to start?</span>
+                            <svg class="w-5 h-5 text-pest-400 shrink-0 transform transition-transform duration-200 faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        <div class="px-6 pb-5 text-gray-300 text-sm hidden faq-content border-t border-wine-800/50 pt-4">
+                            Just a logo and the URL you want to drive traffic to.
+                        </div>
+                    </div>
+
+                    <!-- FAQ 5 -->
+                    <div class="bg-glass-card rounded-2xl border border-wine-800 overflow-hidden">
+                        <button class="w-full text-left px-6 py-5 flex items-center justify-between gap-4 font-heading font-semibold text-white text-lg focus:outline-none faq-btn" onclick="toggleFaq(this)">
+                            <span>How are payments handled?</span>
+                            <svg class="w-5 h-5 text-pest-400 shrink-0 transform transition-transform duration-200 faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        <div class="px-6 pb-5 text-gray-300 text-sm hidden faq-content border-t border-wine-800/50 pt-4">
+                            We use Paddle for secure, international transactions including all major credit cards.
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- FINAL CALL TO ACTION SECTION -->
+        <section id="cta" class="py-24 relative">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-gradient-to-br from-wine-800 to-wine-950 border border-pest-400/40 rounded-3xl p-8 sm:p-14 text-center space-y-8 shadow-2xl relative overflow-hidden">
+                    <div class="absolute -bottom-20 -right-20 w-80 h-80 bg-pest-400/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                    <div class="space-y-4 max-w-2xl mx-auto">
+                        <h2 class="font-heading font-extrabold text-3xl sm:text-5xl text-white">
+                            Ready to claim the top spot?
+                        </h2>
+                        <p class="text-gray-300 text-base sm:text-lg">
+                            Get instant auction alerts and never miss your opportunity to dominate the leaderboard.
+                        </p>
+                    </div>
+
+                    <!-- Email capture form -->
+                    <form id="biddingForm" onsubmit="handleFormSubmit(event)" class="max-w-md mx-auto flex flex-col sm:flex-row gap-3">
+                        <input type="email" id="emailInput" required placeholder="Enter your business email" class="w-full px-5 py-4 rounded-full bg-wine-950/90 border border-wine-700 text-white placeholder-gray-400 focus:outline-none focus:border-pest-400 transition-colors text-sm">
+                        <button type="submit" class="w-full sm:w-auto px-8 py-4 rounded-full bg-pest-400 text-wine-950 font-bold text-sm hover:bg-pest-300 transition-all shadow-lg shadow-pest-400/20 shrink-0">
+                            Start Bidding
+                        </button>
+                    </form>
+
+                    <div id="formSuccess" class="hidden text-pest-300 font-semibold text-sm bg-pest-400/10 border border-pest-400/30 p-4 rounded-2xl max-w-md mx-auto">
+                        ✓ You're on the list! We will notify you when the next spot opens.
+                    </div>
+
+                    <p class="text-xs text-gray-400">
+                        No spam. Unsubscribe anytime. High priority auction updates only.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- SIMPLE FOOTER -->
+    <footer class="bg-wine-950 border-t border-wine-900 py-12 text-sm text-gray-400">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div class="flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
+                <div class="flex items-center gap-2">
+                    <div class="w-6 h-6 rounded-md bg-pest-400 flex items-center justify-center font-bold text-xs text-wine-950">L</div>
+                    <span class="font-bold text-white text-base">Lyrosc</span>
+                </div>
+                <span class="hidden sm:inline text-gray-600">|</span>
+                <p class="text-gray-300 font-medium">Focused on visibility.</p>
+            </div>
+
+            <div class="flex items-center gap-6 text-gray-400">
+                <a href="#" class="hover:text-pest-300 transition-colors">Terms of Service</a>
+                <a href="#" class="hover:text-pest-300 transition-colors">Privacy Policy</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE JAVASCRIPT -->
+    <script>
+        // Mobile Navigation Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // FAQ Accordion Toggle
+        function toggleFaq(button) {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('.faq-icon');
+
+            // Toggle current FAQ
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.classList.add('rotate-180');
+            } else {
+                content.classList.add('hidden');
+                icon.classList.remove('rotate-180');
+            }
+        }
+
+        // Quick Bid Demo interactivity
+        let currentTopBid = 2450;
+        function quickBidDemo() {
+            currentTopBid += 100;
+            const topBidElement = document.getElementById('topBidAmount');
+            topBidElement.innerText = '$' + currentTopBid.toLocaleString();
+            topBidElement.classList.add('text-white', 'scale-110');
+            setTimeout(() => {
+                topBidElement.classList.remove('text-white', 'scale-110');
+            }, 300);
+        }
+
+        // Email Form Submit Handler
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('emailInput');
+            const successMsg = document.getElementById('formSuccess');
+            if (input.value) {
+                input.value = '';
+                successMsg.classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
